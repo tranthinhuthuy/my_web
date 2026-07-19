@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Quản lý câu hỏi</title>
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="admin-card">
+
+<h1>QUẢN LÝ CÂU HỎI</h1>
+
+<p class="sub-title">
+
+Thêm, chỉnh sửa hoặc xóa câu hỏi của cuộc thi.
+
+</p>
+
+<hr>
+
+<input
+type="hidden"
+id="questionId">
+
+<!-- ==========================
+     LOẠI CÂU HỎI
+========================== -->
+
+<div class="form-group">
+
+<label>Loại câu hỏi</label>
+
+<select id="questionType">
+
+<option value="single">
+Trắc nghiệm (1 đáp án)
+</option>
+
+<option value="multiple">
+Trắc nghiệm (Nhiều đáp án)
+</option>
+
+</select>
+
+</div>
+
+<!-- ==========================
+     NỘI DUNG CÂU HỎI
+========================== -->
+
+<div class="form-group">
+
+<label>Nội dung câu hỏi</label>
+
+<textarea
+id="question"
+rows="4"
+placeholder="Nhập nội dung câu hỏi"></textarea>
+
+</div>
+
+<!-- ==========================
+     KHỐI ĐÁP ÁN
+========================== -->
+
+<div id="choiceArea">
+
+    <div class="form-group">
+
+        <label>Đáp án A</label>
+
+        <input
+        type="text"
+        id="answerA"
+        placeholder="Nhập đáp án A">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>Đáp án B</label>
+
+        <input
+        type="text"
+        id="answerB"
+        placeholder="Nhập đáp án B">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>Đáp án C</label>
+
+        <input
+        type="text"
+        id="answerC"
+        placeholder="Nhập đáp án C">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>Đáp án D</label>
+
+        <input
+        type="text"
+        id="answerD"
+        placeholder="Nhập đáp án D">
+
+    </div>
+
+    <!-- ==========================
+         ĐÁP ÁN ĐÚNG
+    ========================== -->
+
+    <div class="form-group">
+
+        <label>Đáp án đúng</label>
+
+        <div
+        id="correctAnswerBox"
+        class="correct-answer-box">
+
+            <label class="answer-item">
+
+                <input
+                type="radio"
+                name="correct"
+                value="A"
+                checked>
+
+                <span>A</span>
+
+            </label>
+
+            <label class="answer-item">
+
+                <input
+                type="radio"
+                name="correct"
+                value="B">
+
+                <span>B</span>
+
+            </label>
+
+            <label class="answer-item">
+
+                <input
+                type="radio"
+                name="correct"
+                value="C">
+
+                <span>C</span>
+
+            </label>
+
+            <label class="answer-item">
+
+                <input
+                type="radio"
+                name="correct"
+                value="D">
+
+                <span>D</span>
+
+            </label>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ==========================
+     BUTTON
+========================== -->
+
+<div class="button-group">
+
+<button
+id="saveQuestion"
+class="save-btn">
+
+➕ Thêm câu hỏi
+
+</button>
+
+<button
+    id="updateQuestion"
+    class="save-btn"
+    type="button"
+    style="display:none;"
+>
+    💾 Cập nhật
+</button>
+
+<button
+id="resetForm"
+class="reset-btn"
+type="button">
+
+Làm mới
+
+</button>
+
+<input
+type="file"
+id="excelFile"
+accept=".xlsx,.xls"
+hidden>
+
+<button
+type="button"
+class="save-btn"
+onclick="document.getElementById('excelFile').click()">
+
+📥 Import Excel
+
+</button>
+
+<button
+onclick="location.href='admin.html'"
+class="reset-btn">
+
+Quay lại
+
+</button>
+
+</div>
+<!-- ==========================
+     TÌM KIẾM
+========================== -->
+
+<div class="search-box">
+
+    <input
+        type="text"
+        id="searchQuestion"
+        placeholder="🔍 Nhập nội dung câu hỏi hoặc đáp án...">
+
+    <button
+        type="button"
+        class="save-btn"
+        id="searchButton">
+
+        Tìm kiếm
+
+    </button>
+
+</div>
+
+
+<hr>
+<div
+id="message"
+class="message"
+style="display:none;">
+</div>
+
+<h2>Danh sách câu hỏi</h2>
+
+<table class="question-table">
+
+<thead>
+
+<tr>
+
+<th width="60">STT</th>
+
+<th width="150">Loại</th>
+
+<th>Câu hỏi</th>
+
+<th width="120">Đáp án đúng</th>
+
+<th width="180">Thao tác</th>
+
+</tr>
+
+</thead>
+
+<tbody id="questionTable">
+
+<tr>
+
+<td colspan="5">
+
+Đang tải dữ liệu...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="js/question.js"></script>
+
+</body>
+
+</html>

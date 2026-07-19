@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Quản trị cuộc thi
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/admin.css"
+    >
+
+</head>
+
+<body>
+
+<div id="header"></div>
+
+<div class="container">
+
+    <div class="admin-card">
+
+        <h1>
+
+            QUẢN TRỊ CUỘC THI
+
+        </h1>
+
+        <p class="sub-title">
+
+            Cập nhật thông tin cuộc thi
+
+        </p>
+
+        <form id="contestForm">
+
+<!-- =========================
+     THÔNG TIN CUỘC THI
+========================== -->
+
+<div class="form-group">
+
+    <label for="title">
+
+        Tên cuộc thi
+
+    </label>
+
+    <input
+        type="text"
+        id="title"
+        placeholder="Ví dụ: Cuộc thi tìm hiểu pháp luật năm 2026"
+        required
+    >
+
+</div>
+
+<div class="form-group">
+
+    <label for="headerSubtitle">
+
+        Tên cơ quan
+
+    </label>
+
+    <input
+        type="text"
+        id="headerSubtitle"
+        placeholder="HỘI ĐỒNG PHỐI HỢP PHỔ BIẾN, GIÁO DỤC PHÁP LUẬT"
+    >
+
+</div>
+
+<div class="form-group">
+
+    <label for="headerPlace">
+
+        Địa phương
+
+    </label>
+
+    <input
+        type="text"
+        id="headerPlace"
+        placeholder="XÃ ĐĂK HÀ"
+    >
+
+</div>
+
+<div class="form-group">
+
+    <label for="headerOrg">
+
+        Ban tổ chức
+
+    </label>
+
+    <input
+        type="text"
+        id="headerOrg"
+        placeholder="BAN TỔ CHỨC CUỘC THI"
+    >
+
+</div>
+
+<div class="form-group">
+
+    <label for="headerTitle">
+
+        Tiêu đề trên Header
+
+    </label>
+
+    <input
+        type="text"
+        id="headerTitle"
+        placeholder="TÌM HIỂU PHÁP LUẬT NĂM 2026"
+    >
+
+</div>
+
+<!-- =========================
+     THỜI GIAN TỔ CHỨC
+========================== -->
+
+<div class="form-row">
+
+    <div class="form-group">
+
+        <label for="startDate">
+
+            Ngày bắt đầu
+
+        </label>
+
+        <input
+            type="datetime-local"
+            id="startDate"
+            required
+        >
+
+    </div>
+
+    <div class="form-group">
+
+        <label for="endDate">
+
+            Ngày kết thúc
+
+        </label>
+
+        <input
+            type="datetime-local"
+            id="endDate"
+            required
+        >
+
+    </div>
+
+</div>
+
+<!-- =========================
+     CẤU HÌNH BÀI THI
+========================== -->
+
+<h2 class="section-title">
+    Cấu hình bài thi
+</h2>
+
+<div class="form-group">
+    <label for="examDuration">
+        Thời gian làm bài (phút)
+    </label>
+
+    <input
+        type="number"
+        id="examDuration"
+        min="1"
+        max="300"
+        value="30"
+        required
+    >
+
+    <small>
+        Ví dụ: 30, 40, 50, 60 phút...
+    </small>
+</div>
+
+<div class="exam-setting">
+
+    <label class="checkbox-item">
+
+        <input
+            type="checkbox"
+            id="autoSubmit"
+            checked
+        >
+        <span>Tự động nộp bài khi hết thời gian</span>
+    </label>
+
+    <label class="checkbox-item">
+
+        <input
+            type="checkbox"
+            id="showCountdown"
+            checked
+        >
+        <span>Hiển thị đồng hồ đếm ngược</span>
+    </label>
+
+    <label class="checkbox-item">
+
+        <input
+            type="checkbox"
+            id="allowEarlySubmit"
+            checked
+        >
+        <span>Cho phép người thi nộp bài trước khi hết giờ</span>
+    </label>
+</div>
+
+<hr>
+<!-- =========================
+     BANNER CUỘC THI
+========================== -->
+
+<div class="form-group">
+
+    <label for="bannerFile">
+
+        Banner cuộc thi
+
+    </label>
+
+    <input
+        type="file"
+        id="bannerFile"
+        accept="image/*"
+    >
+
+    <input
+        type="hidden"
+        id="banner"
+    >
+
+    <small>
+
+        Chọn ảnh JPG, PNG, JPEG hoặc WEBP.
+
+    </small>
+
+</div>
+
+<!-- Xem trước banner -->
+
+<div class="banner-preview">
+
+    <img
+        id="previewImage"
+        src=""
+        alt="Chưa chọn banner"
+        style="display:none;"
+    >
+
+    <p
+        id="bannerPlaceholder"
+        class="banner-placeholder">
+
+        Chưa chọn banner
+
+    </p>
+
+</div>
+
+<hr>
+
+<!-- =========================
+     NỘI DUNG CUỘC THI
+========================== -->
+
+<div class="form-group">
+
+    <label for="content">
+
+        Nội dung cuộc thi
+
+    </label>
+
+    <textarea
+        id="content"
+        rows="5"
+        placeholder="Nhập nội dung cuộc thi..."
+    ></textarea>
+
+</div>
+
+<!-- =========================
+     GIẢI THƯỞNG
+========================== -->
+
+<div class="form-group">
+
+    <label for="prize">
+
+        Giải thưởng
+
+    </label>
+
+    <textarea
+        id="prize"
+        rows="3"
+        placeholder="Nhập thông tin giải thưởng..."
+    ></textarea>
+
+</div>
+
+<!-- =========================
+     ĐỐI TƯỢNG THAM GIA
+========================== -->
+
+<div class="form-group">
+
+    <label for="target">
+
+        Đối tượng tham gia
+
+    </label>
+
+    <textarea
+        id="target"
+        rows="3"
+        placeholder="Nhập đối tượng tham gia..."
+    ></textarea>
+
+</div>
+
+<hr>
+
+<!-- =========================
+     QUẢN LÝ CÂU HỎI
+========================== -->
+
+<h2 class="section-title">
+    Quản lý câu hỏi
+</h2>
+
+<p class="sub-title">
+    Cán bộ có thể quản lý hoặc import bộ câu hỏi.
+</p>
+
+<div class="button-group">
+
+    <!-- MỞ TRANG QUESTION -->
+    <button
+        type="button"
+        id="questionManager"
+        class="save-btn"
+        onclick="openQuestionPage()">
+
+        Quản lý câu hỏi
+
+    </button>
+
+    <!-- MỞ HỘP CHỌN FILE -->
+    <button
+        type="button"
+        id="importExcel"
+        class="save-btn"
+        onclick="document.getElementById('excelFile').click()">
+
+        Import Excel
+
+    </button>
+
+</div>
+
+<!-- INPUT ẨN -->
+<input
+    type="file"
+    id="excelFile"
+    accept=".xlsx,.xls"
+    hidden
+    onchange="importExcel(event)"
+>
+
+<small>
+    File Excel gồm: Câu hỏi, Loại câu hỏi, Đáp án A, B, C, D và Đáp án đúng.
+</small>
+
+<hr>
+
+<!-- =========================
+     GIẤY CHỨNG NHẬN
+========================== -->
+
+<h2 class="section-title">
+
+    Giấy chứng nhận
+
+</h2>
+
+<p class="sub-title">
+
+    Tải lên mẫu giấy chứng nhận để hệ thống tự động chèn
+    thông tin người tham gia sau khi hoàn thành bài thi.
+
+</p>
+
+<!-- =========================
+     MẪU GIẤY CHỨNG NHẬN
+========================== -->
+
+<div class="form-group">
+
+    <label for="certificateTemplate">
+
+        Link mẫu giấy chứng nhận
+
+    </label>
+
+    <input
+        type="url"
+        id="certificateTemplate"
+        placeholder="https://docs.google.com/presentation/d/..."
+        autocomplete="off"
+        oninput="previewCertificateLink()"
+    >
+
+    <small>
+
+        Dán link Google Slides dùng làm mẫu giấy chứng nhận.
+        Hệ thống sẽ sử dụng mẫu này để tạo giấy chứng nhận cho người tham gia.
+
+    </small>
+
+</div>
+
+<!-- =========================
+     XEM TRƯỚC LINK
+========================== -->
+
+<div class="form-group">
+
+    <label>
+
+        Mẫu giấy chứng nhận
+
+    </label>
+
+    <div class="banner-preview">
+
+        <a
+            id="certificatePreview"
+            href="#"
+            target="_blank"
+            style="
+                display:none;
+                word-break:break-all;
+                text-decoration:none;
+                color:#1565c0;
+                font-weight:bold;
+            "
+        >
+            📄 Mở mẫu giấy chứng nhận
+        </a>
+
+        <p
+            id="certificatePlaceholder"
+            class="banner-placeholder"
+        >
+            Chưa có mẫu giấy chứng nhận
+        </p>
+
+    </div>
+
+</div>
+
+<small>
+
+    Sau khi người tham gia hoàn thành bài thi và nhấn
+    <strong>Gửi</strong>, hệ thống sẽ tự động sử dụng mẫu giấy chứng nhận,
+    chèn thông tin người tham gia và hiển thị để tải xuống.
+
+</small>
+
+<hr>
+<!-- =========================
+     BUTTON
+========================== -->
+
+<div class="button-group">
+
+    <button
+        type="submit"
+        class="save-btn">
+
+        Lưu thông tin
+
+    </button>
+
+    <button
+        type="reset"
+        class="reset-btn">
+
+        Làm mới
+
+    </button>
+
+</div>
+
+<div id="message"></div>
+
+</form>
+
+</div>
+
+</div>
+
+<div id="footer"></div>
+
+<script src="js/layout.js"></script>
+<script src="js/admin.js"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    /* =========================
+       BANNER
+    ========================== */
+
+    const bannerFile =
+        document.getElementById("bannerFile");
+
+    const bannerPreview =
+        document.getElementById("previewImage");
+
+    const bannerInput =
+        document.getElementById("banner");
+
+    const bannerPlaceholder =
+        document.getElementById("bannerPlaceholder");
+
+    if (bannerPreview) {
+        bannerPreview.style.display = "none";
+    }
+
+    /* Chọn banner từ máy */
+
+    if (bannerFile) {
+
+        bannerFile.addEventListener("change", () => {
+            const file = bannerFile.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e){
+                bannerPreview.src = e.target.result;
+                bannerPreview.style.display = "block";
+                if (bannerPlaceholder) {
+                    bannerPlaceholder.style.display = "none";
+
+                }
+
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+    }
+
+    /* Nhập URL banner */
+
+    if (bannerInput) {
+        bannerInput.addEventListener("input", () => {
+            const url = bannerInput.value.trim();
+            if (!url) {
+                bannerPreview.removeAttribute("src");
+                bannerPreview.style.display = "none";
+                if (bannerPlaceholder) {
+                    bannerPlaceholder.style.display = "block";
+                }
+
+                return;
+
+            }
+            bannerPreview.src = url;
+            bannerPreview.style.display = "block";
+            if (bannerPlaceholder) {
+                bannerPlaceholder.style.display = "none";
+            }
+
+        });
+
+    }
+
+    /* =========================
+       IMPORT EXCEL
+    ========================== */
+
+    const importBtn =
+        document.getElementById("importExcel");
+
+    const excelFile =
+        document.getElementById("excelFile");
+    if (importBtn && excelFile) {
+        importBtn.addEventListener("click", () => {
+            excelFile.click();
+        });
+
+        excelFile.addEventListener("change", () => {
+            const file = excelFile.files[0];
+            if (!file) return;
+            alert("Đã chọn file: " + file.name);
+        });
+
+    }
+
+    /* =========================
+       RESET FORM
+    ========================== */
+    const form =
+        document.getElementById("contestForm");
+    if (form) {
+        form.addEventListener("reset", () => {
+            setTimeout(() => {
+                if (bannerPreview) {
+                    bannerPreview.removeAttribute("src");
+                    bannerPreview.style.display = "none";
+                }
+
+                if (bannerPlaceholder) {
+                    bannerPlaceholder.style.display = "block";
+                }
+
+                if (bannerInput) {
+                    bannerInput.value = "";
+                }
+                if (bannerFile) {
+                    bannerFile.value = "";
+                }
+            }, 100);
+        });
+    }
+});
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Cuộc thi tìm hiểu pháp luật
+    </title>
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+<body>
+
+<!-- ==========================
+     HEADER
+========================== -->
+
+<header>
+
+    <div class="header-text">
+
+        <!-- Tên cơ quan -->
+
+        <p
+            id="headerSubtitle"
+            class="sub-title">
+
+            Đang tải...
+
+        </p>
+
+        <!-- Địa phương -->
+
+        <h1 id="headerPlace">
+
+            Đang tải...
+
+        </h1>
+
+        <div class="line"></div>
+
+        <!-- Ban tổ chức -->
+
+        <h2 id="headerOrg">
+
+            Đang tải...
+
+        </h2>
+
+        <!-- Tiêu đề cuộc thi -->
+
+        <p
+            id="headerTitle"
+            class="location">
+
+            Đang tải...
+
+        </p>
+
+    </div>
+
+</header>
+
+<!-- ==========================
+     BANNER
+========================== -->
+
+<section class="banner">
+
+    <img
+        id="bannerImage"
+        class="banner-image"
+        src=""
+        alt="Banner cuộc thi"
+        loading="lazy"
+        decoding="async"
+        style="display:none;"
+    >
+
+</section>
+
+<!-- ==========================
+     NỘI DUNG
+========================== -->
+
+<section id="homeSection" class="content">
+
+    <h2 id="contestTitle">
+        Đang tải thông tin cuộc thi...
+    </h2>
+    <!-- ==========================
+     THÔNG TIN CUỘC THI
+========================== -->
+
+<div class="info-box">
+
+    <h3>📅 Thời gian tổ chức</h3>
+
+    <p>
+        <strong>Thời gian bắt đầu:</strong>
+        <span id="timeStart">
+
+            --
+        </span>
+    </p>
+
+    <p>
+        <strong>Thời gian kết thúc:</strong>
+        <span id="timeEnd">
+            --
+        </span>
+
+    </p>
+
+</div>
+
+<!-- ==========================
+     NỘI DUNG CUỘC THI
+========================== -->
+
+<div class="info-box">
+
+    <h3>📖 Nội dung cuộc thi</h3>
+    <p id="content">
+        Đang cập nhật...
+
+    </p>
+
+</div>
+
+<!-- ==========================
+     GIẢI THƯỞNG
+========================== -->
+
+<div class="info-box">
+
+    <h3>🏆 Giải thưởng</h3>
+    <p id="prize">
+        Đang cập nhật...
+    </p>
+
+</div>
+
+<!-- ==========================
+     ĐỐI TƯỢNG THAM GIA
+========================== -->
+
+<div class="info-box">
+    <h3>👥 Đối tượng tham gia</h3>
+    <p id="target">
+        Đang cập nhật...
+    </p>
+
+</div>
+<!-- ==========================
+     THAM GIA CUỘC THI
+========================== -->
+
+<div class="button-box">
+
+    <button
+        id="joinBtn"
+        type="button"
+        class="btn-primary">
+
+        THAM GIA CUỘC THI
+
+    </button>
+
+</div>
+
+<!-- ==========================
+     THÔNG TIN NGƯỜI THAM GIA
+========================== -->
+
+<div
+    id="participantForm"
+    style="display:none;">
+
+    <div class="info-box">
+
+        <h3>📝 Thông tin người tham gia</h3>
+
+        <div class="form-group">
+
+            <label for="fullName">
+
+                Họ và tên
+                <span style="color:red">*</span>
+
+            </label>
+
+            <input
+                type="text"
+                id="fullName"
+                placeholder="Nhập họ và tên">
+
+        </div>
+        <div class="form-group">
+            <label for="dob">
+                Ngày sinh <span style="color:red">*</span>
+            </label>
+            <input type="date" id="dob">
+        </div>
+
+        <div class="form-group">
+
+            <label for="phone">
+
+                Số điện thoại
+
+            </label>
+
+            <input
+                type="text"
+                id="phone"
+                placeholder="Nhập số điện thoại">
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="email">
+
+                Email
+
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Nhập email">
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="unit">
+
+                Địa chỉ / Đơn vị công tác
+
+            </label>
+
+            <input
+                type="text"
+                id="unit"
+                placeholder="Nhập địa chỉ hoặc đơn vị">
+
+        </div>
+
+    </div>
+
+    <!-- ==========================
+         NÚT BẮT ĐẦU LÀM BÀI
+    ========================== -->
+
+    <div class="button-box">
+
+        <button
+            id="startBtn"
+            type="button"
+            class="btn-success">
+
+            BẮT ĐẦU LÀM BÀI
+
+        </button>
+
+    </div>
+
+</div>
+<!-- ==========================
+     THÔNG BÁO
+========================== -->
+
+<div
+    id="messageBox"
+    class="info-box"
+    style="display:none;">
+
+    <h3>Thông báo</h3>
+
+    <p id="messageText">
+
+    </p>
+
+</div>
+
+<!-- ==========================
+     HƯỚNG DẪN
+========================== -->
+
+<div class="info-box">
+
+    <h3>📌 Hướng dẫn tham gia</h3>
+
+    <ol>
+
+        <li>
+            Đọc kỹ thông tin cuộc thi trước khi tham gia.
+        </li>
+
+        <li>
+            Nhấn nút
+            <strong>THAM GIA CUỘC THI</strong>.
+        </li>
+
+        <li>
+            Nhập đầy đủ thông tin người tham gia.
+        </li>
+
+        <li>
+            Nhấn
+            <strong>BẮT ĐẦU LÀM BÀI</strong>
+            để chuyển sang phần thi.
+        </li>
+
+        <li>
+            Trả lời đầy đủ các câu hỏi trong thời gian quy định.
+        </li>
+
+        <li>
+            Sau khi hoàn thành, nhấn
+            <strong>GỬI BÀI</strong>
+            để nộp bài thi.
+        </li>
+
+        <li>
+            Hệ thống sẽ tự động hiển thị kết quả và giấy chứng nhận (nếu đạt yêu cầu).
+        </li>
+
+        <li>
+            Người tham gia có thể tải giấy chứng nhận dưới dạng
+            <strong>PNG</strong>.
+        </li>
+
+    </ol>
+
+</div>
+</section>
+
+<footer>
+
+    © 2026 Hệ thống cuộc thi tìm hiểu pháp luật - Xã Đăk Hà
+
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+
+/* ==========================
+   DOM READY
+========================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const joinBtn =
+        document.getElementById(
+            "joinBtn"
+        );
+
+    if (!joinBtn) {
+
+        return;
+
+    }
+
+    joinBtn.addEventListener(
+        "click",
+        () => {
+
+            const now =
+                new Date();
+
+            if (
+                contestStart &&
+                now < new Date(contestStart)
+            ) {
+
+                alert(
+                    "Cuộc thi chưa bắt đầu."
+                );
+
+                return;
+
+            }
+
+            if (
+                contestEnd &&
+                now > new Date(contestEnd)
+            ) {
+
+                alert(
+                    "Cuộc thi đã kết thúc."
+                );
+
+                return;
+
+            }
+
+            window.location.href =
+                "exam.html";
+
+        }
+    );
+
+});
+
+</script>
+</body>
+</html>
