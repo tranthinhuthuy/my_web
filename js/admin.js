@@ -841,41 +841,11 @@ if (certificate) {
 
 async function loadContest(forceReload = false) {
 
+    if (isLoading) return;
+
+    isLoading = true;
+
     try {
-
-        /* ==========================
-           LOAD TỪ CACHE
-        ========================== */
-
-        if (!forceReload) {
-
-            const cache =
-                localStorage.getItem(
-                    "contestData"
-                );
-
-            if (cache) {
-
-                const data =
-                    JSON.parse(cache);
-
-                contestCache = data;
-
-                fillForm(contestCache);
-
-                return;
-
-            }
-
-        }
-
-        if (isLoading) {
-
-            return;
-
-        }
-
-        isLoading = true;
 
         showMessage(
             "Đang tải dữ liệu...",
@@ -886,30 +856,27 @@ async function loadContest(forceReload = false) {
            GỌI APPS SCRIPT
         ========================== */
 
-        const response =
-            await fetch(
+        const response = await fetch(
 
-                API +
-                "?action=contest&t=" +
-                Date.now(),
+            API +
+            "?action=contest&t=" +
+            Date.now(),
 
-                {
-                    cache: "no-store"
-                }
+            {
+                cache: "no-store"
+            }
 
-            );
+        );
 
         if (!response.ok) {
 
             throw new Error(
-                "HTTP " +
-                response.status
+                "HTTP " + response.status
             );
 
         }
 
-        const result =
-            await response.json();
+        const result = await response.json();
 
         if (!result.success) {
 
@@ -926,8 +893,7 @@ async function loadContest(forceReload = false) {
            CHUẨN HÓA DỮ LIỆU
         ========================== */
 
-        const server =
-            result.data || {};
+        const server = result.data || {};
 
         const contest = {
 
@@ -957,24 +923,25 @@ async function loadContest(forceReload = false) {
             /* Cấu hình bài thi */
 
             examTime:
-                Number(
-                    server.exam_duration
-                ) || 30,
+                Number(server.exam_duration) || 30,
 
             autoSubmit:
+
                 server.auto_submit === true ||
-                String(
-                    server.auto_submit
-                ).toLowerCase() === "true" ||
+
+                String(server.auto_submit)
+                    .toLowerCase() === "true" ||
+
                 server.auto_submit == 1 ||
+
                 server.auto_submit == "1",
+
             showCountdown:
 
                 server.show_countdown === true ||
 
-                String(
-                    server.show_countdown
-                ).toLowerCase() === "true" ||
+                String(server.show_countdown)
+                    .toLowerCase() === "true" ||
 
                 server.show_countdown == 1 ||
 
@@ -984,11 +951,13 @@ async function loadContest(forceReload = false) {
 
                 server.allow_early_submit === true ||
 
-                String(
-                    server.allow_early_submit
-                ).toLowerCase() === "true" ||
+                String(server.allow_early_submit)
+                    .toLowerCase() === "true" ||
+
                 server.allow_early_submit == 1 ||
+
                 server.allow_early_submit == "1",
+
             /* Banner */
 
             banner:
@@ -996,11 +965,14 @@ async function loadContest(forceReload = false) {
                 server.banner ||
                 DEFAULT_BANNER,
 
-            /* Mẫu chứng nhận */
+            /* Giấy chứng nhận */
 
             certificateTemplate:
+
                 server.certificate_template ||
+
                 server.certificateTemplate ||
+
                 "",
 
             /* Nội dung */
@@ -1013,18 +985,25 @@ async function loadContest(forceReload = false) {
 
             target:
                 server.target || ""
+
         };
 
         /* ==========================
-           LƯU CACHE
+           CẬP NHẬT CACHE
         ========================== */
 
         contestCache = {
-            ...contest
+
+            ...contest,
+
+            updatedAt: Date.now()
+
         };
 
         localStorage.setItem(
+
             "contestData",
+
             JSON.stringify(
                 contestCache
             )
@@ -1035,41 +1014,40 @@ async function loadContest(forceReload = false) {
            ĐỔ DỮ LIỆU LÊN FORM
         ========================== */
 
-        fillForm(
-            contestCache
-        );
+        fillForm(contestCache);
 
         /* ==========================
            ĐỒNG BỘ CHECKBOX
         ========================== */
+
         const autoSubmit =
-            document.getElementById(
-                "autoSubmit"
-            );
+            document.getElementById("autoSubmit");
 
         if (autoSubmit) {
+
             autoSubmit.checked =
                 contest.autoSubmit;
+
         }
 
         const showCountdown =
-            document.getElementById(
-                "showCountdown"
-            );
+            document.getElementById("showCountdown");
 
         if (showCountdown) {
+
             showCountdown.checked =
                 contest.showCountdown;
+
         }
 
         const allowEarlySubmit =
-            document.getElementById(
-                "allowEarlySubmit"
-            );
+            document.getElementById("allowEarlySubmit");
 
         if (allowEarlySubmit) {
+
             allowEarlySubmit.checked =
                 contest.allowEarlySubmit;
+
         }
 
         showMessage(
@@ -1080,16 +1058,43 @@ async function loadContest(forceReload = false) {
     }
 
     catch (err) {
+
         console.error(err);
-        showMessage(
-            err.message ||
-            "Không tải được dữ liệu.",
-            "error"
-        );
+
+        /* ==========================
+           Nếu lỗi mạng thì dùng cache
+        ========================== */
+
+        const cache =
+            localStorage.getItem("contestData");
+
+        if (cache) {
+
+            contestCache =
+                JSON.parse(cache);
+
+            fillForm(contestCache);
+
+            showMessage(
+                "Không kết nối được máy chủ. Đang dùng dữ liệu đã lưu.",
+                "error"
+            );
+
+        }
+
+        else {
+            showMessage(
+                err.message ||
+                "Không tải được dữ liệu.",
+                "error"
+            );
+
+        }
 
     }
 
     finally {
+
         isLoading = false;
 
     }
@@ -1324,96 +1329,108 @@ async function saveContest(e) {
                 "endDate"
             ).value.trim();
 
-            const data = {
+        const data = {
 
-    title:
-        document.getElementById(
-            "title"
-        ).value.trim(),
+            /* ==========================
+               THÔNG TIN CUỘC THI
+            ========================== */
 
-    header_subtitle:
-        document.getElementById(
-            "headerSubtitle"
-        ).value.trim(),
+            title:
+                document.getElementById(
+                    "title"
+                ).value.trim(),
 
-    header_place:
-        document.getElementById(
-            "headerPlace"
-        ).value.trim(),
+            header_subtitle:
+                document.getElementById(
+                    "headerSubtitle"
+                ).value.trim(),
 
-    header_org:
-        document.getElementById(
-            "headerOrg"
-        ).value.trim(),
+            header_place:
+                document.getElementById(
+                    "headerPlace"
+                ).value.trim(),
 
-    header_title:
-        document.getElementById(
-            "headerTitle"
-        ).value.trim(),
+            header_org:
+                document.getElementById(
+                    "headerOrg"
+                ).value.trim(),
 
-    start_date:
-        startDate,
+            header_title:
+                document.getElementById(
+                    "headerTitle"
+                ).value.trim(),
 
-    end_date:
-        endDate,
+            start_date:
+                startDate,
 
-    /* ==========================
-       CẤU HÌNH BÀI THI
-    ========================== */
+            end_date:
+                endDate,
 
-    exam_duration:
-        Number(
-            document.getElementById(
-                "examDuration"
-            )?.value
-        ) || 30,
+            /* ==========================
+               CẤU HÌNH BÀI THI
+            ========================== */
 
-    auto_submit:
-        document.getElementById(
-            "autoSubmit"
-        )?.checked ?? true,
+            exam_duration:
+                Number(
+                    document.getElementById(
+                        "examDuration"
+                    )?.value
+                ) || 30,
 
-    show_countdown:
-        document.getElementById(
-            "showCountdown"
-        )?.checked ?? true,
+            auto_submit:
+                document.getElementById(
+                    "autoSubmit"
+                )?.checked ?? true,
 
-    allow_early_submit:
-        document.getElementById(
-            "allowEarlySubmit"
-        )?.checked ?? true,
+            show_countdown:
+                document.getElementById(
+                    "showCountdown"
+                )?.checked ?? true,
 
-    /* ==========================
-       THÔNG TIN KHÁC
-    ========================== */
+            allow_early_submit:
+                document.getElementById(
+                    "allowEarlySubmit"
+                )?.checked ?? true,
 
-    banner:
-        bannerUrl ||
-        contestCache?.banner ||
-        "",
+            /* ==========================
+               BANNER
+            ========================== */
 
-    certificate_template:
-        certificateUrl ||
-        contestCache?.certificateTemplate ||
-        contestCache?.certificate_template ||
-        "",
+            banner:
+                bannerUrl ||
+                contestCache?.banner ||
+                "",
 
-    content:
-        document.getElementById(
-            "content"
-        ).value.trim(),
+            /* ==========================
+               GIẤY CHỨNG NHẬN
+            ========================== */
 
-    prize:
-        document.getElementById(
-            "prize"
-        ).value.trim(),
+            certificate_template:
+                certificateUrl ||
+                contestCache?.certificateTemplate ||
+                contestCache?.certificate_template ||
+                "",
 
-    target:
-        document.getElementById(
-            "target"
-        ).value.trim()
+            /* ==========================
+               NỘI DUNG
+            ========================== */
 
-};
+            content:
+                document.getElementById(
+                    "content"
+                ).value.trim(),
+
+            prize:
+                document.getElementById(
+                    "prize"
+                ).value.trim(),
+
+            target:
+                document.getElementById(
+                    "target"
+                ).value.trim()
+
+        };
 
         console.log(
             "Contest data:",
@@ -1421,15 +1438,17 @@ async function saveContest(e) {
         );
 
         /* ==========================
-           Kiểm tra dữ liệu
+           KIỂM TRA
         ========================== */
 
         if (!validateContest(data)) {
+
             return;
+
         }
 
         /* ==========================
-           Chuẩn bị FormData
+           FORM DATA
         ========================== */
 
         const formData =
@@ -1454,7 +1473,7 @@ async function saveContest(e) {
         );
 
         /* ==========================
-           Gửi Apps Script
+           GỬI APPS SCRIPT
         ========================== */
 
         const response =
@@ -1488,7 +1507,7 @@ async function saveContest(e) {
         }
 
         /* ==========================
-           Cập nhật Cache
+           CẬP NHẬT CACHE
         ========================== */
 
         contestCache = {
@@ -1539,7 +1558,10 @@ async function saveContest(e) {
                 data.prize,
 
             target:
-                data.target
+                data.target,
+
+            updatedAt:
+                Date.now()
 
         };
 
@@ -1548,15 +1570,58 @@ async function saveContest(e) {
         );
 
         localStorage.setItem(
+
             "contestData",
+
             JSON.stringify(
                 contestCache
             )
+
         );
 
         fillForm(
             contestCache
         );
+
+        /* ==========================
+           ĐỒNG BỘ CHECKBOX
+        ========================== */
+
+        const autoSubmit =
+            document.getElementById(
+                "autoSubmit"
+            );
+
+        if (autoSubmit) {
+
+            autoSubmit.checked =
+                contestCache.autoSubmit;
+
+        }
+
+        const showCountdown =
+            document.getElementById(
+                "showCountdown"
+            );
+
+        if (showCountdown) {
+
+            showCountdown.checked =
+                contestCache.showCountdown;
+
+        }
+
+        const allowEarlySubmit =
+            document.getElementById(
+                "allowEarlySubmit"
+            );
+
+        if (allowEarlySubmit) {
+
+            allowEarlySubmit.checked =
+                contestCache.allowEarlySubmit;
+
+        }
 
         showMessage(
             "Đã lưu thông tin cuộc thi thành công.",
@@ -1570,9 +1635,12 @@ async function saveContest(e) {
         console.error(err);
 
         showMessage(
+
             err.message ||
             "Không thể lưu dữ liệu.",
+
             "error"
+
         );
 
     }
@@ -1857,84 +1925,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 });
-/* ==========================================
-   RESET PREVIEW
-========================================== */
-
-function resetPreview() {
-
-    setTimeout(() => {
-
-        /* ==========================
-           Banner
-        ========================== */
-
-        const bannerPreview =
-            document.getElementById("previewImage");
-
-        const bannerPlaceholder =
-            document.getElementById("bannerPlaceholder");
-
-        if (bannerPreview) {
-
-            bannerPreview.removeAttribute("src");
-            bannerPreview.style.display = "none";
-
-        }
-
-        if (bannerPlaceholder) {
-
-            bannerPlaceholder.style.display = "block";
-
-        }
-
-        /* ==========================
-           Certificate
-        ========================== */
-
-        const certificate =
-            document.getElementById("certificatePreview");
-
-        if (certificate) {
-
-            certificate.removeAttribute("src");
-            certificate.style.display = "none";
-
-        }
-
-        /* ==========================
-           Reset File Input
-        ========================== */
-
-        [
-            "bannerFile",
-            "certificateTemplate",
-            "excelFile"
-
-        ].forEach(id => {
-
-            const input =
-                document.getElementById(id);
-
-            if (input) {
-
-                input.value = "";
-
-            }
-
-        });
-
-        /* ==========================
-           Xóa cache khi Reset
-        ========================== */
-
-        contestCache = {};
-
-        localStorage.removeItem("contestData");
-
-    }, 100);
-
-}
 
 /* ==========================================
    IMAGE / LINK LOAD
